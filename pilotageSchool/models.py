@@ -8,7 +8,7 @@ class School(models.Model):
     address = models.CharField(max_length=200)
     phone = models.CharField(max_length=10)
     def __str__(self):
-        return f'Nom de l\'école : {self.name} - Adresse : {self.adress}'
+        return f'Nom de l\'école : {self.name} - Adresse : {self.address}'
 
 class Reservation(models.Model):
     School = models.ForeignKey(School, on_delete=models.CASCADE)
