@@ -1,0 +1,27 @@
+{% extends "templateAllPages.html" %}
+{% block body %}
+
+    {% if user.is_authenticated %}
+    <p class="p-2 text-center mt-3">Si la connexion ne vous renvoie pas sur la page d'accueil, cliquez <a href="/" style="text-decoration: none; " >ici</a></p>
+
+    <!-- Sinon, le formulaire apparait pour qu'il se connecte avec une option pour créer un compte (pas encore fait car bonus)-->
+    {% else %}
+    <p>{{ message }}</p>
+    <div class="bg-white fPersian">
+        <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5">
+            <h1 class="text-black p-3">Formulaire d'inscription</h1>
+            <form method="POST" action="{% url 'CreationDeCompte' %}">
+                {% csrf_token %}
+                   {{ form.as_p }}
+
+                    <br/>
+                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                    </br>
+                    <label class="form-label fs-3 mt-5">Vous êtes déjà membre ?</label>
+                    </br>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Cliquez ici pour vous connecter</a>
+            </form>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
