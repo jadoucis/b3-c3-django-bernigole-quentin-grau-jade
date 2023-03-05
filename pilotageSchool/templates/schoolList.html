@@ -1,10 +1,12 @@
-<!DOCTYPE html>
-<html lang="fr">
-<head>
-    <meta charset="UTF-8">
-    <title>Liste des écoles</title>
-</head>
-<body>
-
-</body>
-</html>
+{% extends 'templateAllPages.html' %}
+{% block body %}
+  <h1>Liste des voitures</h1>
+  <ul>
+    {% for school in schools %}
+      <li>
+        Nom de l'école : {{ school.name }} - Adresse : {{ school.adress }} - Téléphone : {{ school.phone }}
+          <a href="#"><button btn-primary>Voir l'école plus en détails</button></a>
+      </li>
+    {% endfor %}
+  </ul>
+{% endblock %}

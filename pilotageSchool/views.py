@@ -5,6 +5,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from django import forms
 from . import forms
+from .models import School
 
 # Create your views here.
 
@@ -37,3 +38,7 @@ def logout_page(request):
     logout(request)
     messages.info(request, "Vous êtes déconnecté.")
     return redirect("index")
+
+def schoolList(request):
+    schools = School.objects.all()
+    return render(request, 'schoolList.html', {'schools': schools})
