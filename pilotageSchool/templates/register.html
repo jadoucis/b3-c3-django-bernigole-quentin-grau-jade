@@ -76,30 +76,28 @@
 
     {% include 'navbar.html' %}
 
-    <!-- Si l'utilisateur est déjà authentifié, ça lui demande de retourner à la page d'accueil -->
     {% if user.is_authenticated %}
     <p class="p-2 text-center mt-3">Si la connexion ne vous renvoie pas sur la page d'accueil, cliquez <a href="/" style="text-decoration: none; " >ici</a></p>
 
     <!-- Sinon, le formulaire apparait pour qu'il se connecte avec une option pour créer un compte (pas encore fait car bonus)-->
     {% else %}
     <p>{{ message }}</p>
-    <form method="POST" action="" class="col-md-2 col-lg-2 col-xl-3 mx-auto mb-4">
-        {% csrf_token %}
-            <div class="mb-3">
-              <label class="form-label fs-2 mt-3">Nom d'utilisateur</label>
-              <input type="text" class="form-control form-control-lg mt-3" name="username" placeholder="Quentin et Jade">
-            </div>
-            <div class="mb-4">
-              <label class="form-label fs-2 mt-3">Mot de passe</label>
-              <input type="password" class="form-control form-control-lg mt-3" name="password" placeholder="Jade et Quentin">
-            </div>
-            <button type="submit" class="btn btn-primary">Se connecter</button>
-            </br>
-            <label class="form-label fs-5 mt-5">Pas encore de compte ?</label>
-            </br>
-            <a href="{% url 'CreationDeCompte' %}" class="btn btn-light active">Créer un compte</a>
-          </br>
-    </form>
+    <div class="bg-white fPersian">
+        <div class="shadow p-4 mb-5 bg-body bg-body rounded text-black  m-5">
+            <h1 class="text-black p-3">Formulaire d'inscription</h1>
+            <form method="POST" action="{% url 'CreationDeCompte' %}">
+                {% csrf_token %}
+                   {{ form.as_p }}
+
+                    <br/>
+                    <button type="submit" class="btn btn-primary">S'inscrire</button>
+                    </br>
+                    <label class="form-label fs-3 mt-5">Vous êtes déjà membre ?</label>
+                    </br>
+                    <a href="{% url 'login' %}" class="btn btn-primary">Cliquez ici pour vous connecter</a>
+            </form>
+        </div>
+    </div>
     {% endif %}
 
 </body>
