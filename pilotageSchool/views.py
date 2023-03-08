@@ -6,7 +6,7 @@ from django import forms
 from . import forms
 from django.shortcuts import render
 from .models import School, Reservation
-from .forms import RegisterForm
+from .forms import RegisterForm, ReservationForm
 
 
 # Create your views here.
@@ -23,6 +23,12 @@ def reservations_pages(request):
     return render(request, 'templates/reservations.html', {'reservations': reservations})
 
 
+# Choose reservation page view
+def choose_reservation(request, school_name):
+    form = ReservationForm()
+    return render(request, 'templates/choose_reservation.html', {'form': form, 'school_name': school_name})
+
+
 # Register view (Bonus)
 def register_page(request):
     if request.method == "POST":
@@ -33,11 +39,11 @@ def register_page(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request, user)
-            messages.success(request, "Sign Up Completed!")
+            messages.success(request, "Votre compte a été créé !")
             return redirect('index')
     else:
         form = RegisterForm()
-    return render(request, 'register.html', {
+    return render(request, 'templates/register.html', {
         'form': form})
 
 
@@ -53,9 +59,10 @@ def login_page(request):
             if user is not None:
                 login(request, user)
                 messages.success(request, f"Bonjour {user.username}, vous êtes connecté !")
+                return redirect('index')
             else:
                 messages.info(request, f"Echec de la connexion")
-    return render(request, 'login.html', context={'form': form})
+    return render(request, 'templates/login.html', context={'form': form})
 
 
 # Logout view
