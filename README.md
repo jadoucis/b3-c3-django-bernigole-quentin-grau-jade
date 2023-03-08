@@ -8,7 +8,9 @@ mdp: quentinetjade
 Ecole:
 id:LearnDrive
 mdp: school123**
+SI VOUS CREEZ UNE ECOLE LUI METTE LE "GROUP" SCHOOLS
 
 Apprenant:
 id:test
 mdp:test1234**
+
