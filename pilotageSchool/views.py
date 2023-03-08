@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django import forms
 from . import forms
 from django.shortcuts import render
-from .models import School
+from .models import School, Reservation
 from .forms import RegisterForm
 
 
@@ -15,6 +15,12 @@ from .forms import RegisterForm
 def index(request):
     schools = School.objects.all()
     return render(request, 'templates/school_list.html', {'schools': schools})
+
+
+# Reservation page view
+def reservations_pages(request):
+    reservations = Reservation.objects.all()
+    return render(request, 'templates/reservations.html', {'reservations': reservations})
 
 
 # Register view (Bonus)
@@ -58,4 +64,3 @@ def logout_page(request):
     logout(request)
     messages.info(request, "Vous êtes déconnecté.")
     return redirect("index")
-
