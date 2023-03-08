@@ -27,7 +27,6 @@ class Reservation(models.Model):
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
-    description = models.CharField(max_length=200)
     date = models.DateField()
     time = models.CharField(max_length=50, choices=TIME_CHOICES)
 
