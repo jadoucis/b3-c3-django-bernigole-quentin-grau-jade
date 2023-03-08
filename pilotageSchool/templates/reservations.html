@@ -75,12 +75,52 @@
 <body>
 
     {% include 'navbar.html' %}
-
+    {% if user.is_authenticated %}
+    {% if user.groups.all %}
+    {% for group in user.groups.all %}
+    {% if group.name == 'schools' %}
     <main>
       <section class="py-5 text-center container">
         <div class="row py-lg-5">
           <div class="col-lg-6 col-md-8 mx-auto">
-            <h1 class="fw-light">Bonjour {{ user.name }}</h1>
+            <h1 class="fw-light">Bonjour {{ user.username }}</h1>
+              <p class="card-text">Vous êtes sur votre espace permettant de voir les réservations des clients.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="album py-5 bg-light">
+        <div class="container">
+
+          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                {% for reservation in reservations %}
+                  {% if reservation.school.name == user.username %}
+                        <div class="col">
+                            <div class="card" style="width: 18rem;">
+                              <div class="card-body">
+                                <h5 class="card-title">{{ reservation.user }}</h5>
+                                <h6 class="card-subtitle mb-2 text-muted">{{ reservation.date }} - {{ reservation.time }}</h6>
+                                <p class="card-text">Formation pratique où l'instructeur apprend au conducteur comment manipuler les commandes de la voiture afin de le préparer au permis de conduire.</p>
+<!--                              <a href="#" class="btn" style="background-color: red;">Annuler</a>-->
+                              </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+          </div>
+        </div>
+      </div>
+
+    </main>
+    {% endif %}
+    {% endfor %}
+    {% else %}
+    <main>
+      <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">Bonjour {{ user.username }}</h1>
               <p class="card-text">Vous êtes sur votre espace permettant de voir vos réservations et de les gérer</p>
           </div>
         </div>
@@ -90,7 +130,6 @@
         <div class="container">
 
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-              {% if user.is_authenticated %}
                 {% for reservation in reservations %}
                         <div class="col">
                             <div class="card" style="width: 18rem;">
@@ -103,13 +142,15 @@
                             </div>
                         </div>
                 {% endfor %}
-              {% endif %}
 
           </div>
         </div>
       </div>
 
     </main>
+    {% endif %}
+    {% endif %}
+
 
     {% include 'footer.html' %}
 
