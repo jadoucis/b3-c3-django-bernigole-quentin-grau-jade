@@ -24,7 +24,7 @@ def register_page(request):
             password = form.cleaned_data['password1']
             user = authenticate(username=username, password = password)
             login(request, user)
-            messages.success(request, "Sign Up Completed!")
+            messages.success(request, f"Inscription validée. Vous êtes connecté sous {username}")
             return redirect('index')
     else:
         form = RegisterForm()
