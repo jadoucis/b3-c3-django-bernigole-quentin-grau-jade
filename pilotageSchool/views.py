@@ -73,8 +73,9 @@ def validWeekday(days):
     for i in range(0, days):
         x = today + timedelta(days=i)
         y = x.strftime('%A')
-        if y != 'Saturday' or y != 'Sunday':
+        if y in ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"):
             weekdays.append(x.strftime('%Y-%m-%d'))
+        print(weekdays)
     return weekdays
 
 
