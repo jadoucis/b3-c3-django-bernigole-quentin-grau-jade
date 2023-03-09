@@ -31,36 +31,16 @@ def reservations_pages(request):
 # Choose reservation page view
 def choose_reservation(request, school_name):
     school = School.objects.get(name=school_name)
-    print(School)
-    reservations = Reservation.objects.all()
     weekdays = validWeekday(15)
-    validateWeekdays = isWeekdayValid(weekdays)
+    validateWeekdays = isWeekdayValid(weekdays, school)
     time = ["8h", "9h", "10h", "11h", "14h", "15h", "16h", "17h"]
-    # unavailable_schools = []
-    # unavailable_date = []
-    # unavailable_time = []
-    # for reservation in reservations:
-    #     if check_availability(reservation.school, reservation.date, reservation.time):
-    #         unavailable_date.append(reservation.date)
-    #         unavailable_time.append(reservation.time)
-    # unavailable_schools.append(unavailable_date)
-    # unavailable_schools.append(unavailable_time)
-    # print(validateWeekdays)
     slots = []
     for day in validateWeekdays:
-        times = isTimeValid(day, time)
+        times = isTimeValid(day, time, school)
         slots.append({
             "day": day,
             'time': times
         })
-    # print(slots)
-    # if len(unavailable_schools) > 0:
-    #     isTimeValid(unavailable_school[0], unavailable_school[1])
-    #     # for i in range(0, len(unavailable_schools)):
-    #     #     # isTimeValid(unavailable_school[0], unavailable_school[1])
-    #     #     # keys = list(unavailable_school)
-    #     #     print(unavailable_schools[i][i], unavailable_schools[i+1][i+1])
-    # else:
     if request.method == 'POST':
         print(request.POST.get("day"))
         print(request.POST.get("time"))
