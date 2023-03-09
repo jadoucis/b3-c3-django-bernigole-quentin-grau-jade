@@ -1,3 +1,5 @@
+import array
+
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -21,7 +23,7 @@ def index(request):
 
 # Reservation page view
 def reservations_pages(request):
-    reservations = Reservation.objects.all()
+    reservations = Reservation.objects.filter(user=request.user)
     return render(request, 'templates/reservations.html', {'reservations': reservations})
 
 
@@ -33,17 +35,24 @@ def choose_reservation(request, school_name):
     weekdays = validWeekday(15)
     validateWeekdays = isWeekdayValid(weekdays)
     time = ["8h", "9h", "10h", "11h", "14h", "15h", "16h", "17h"]
-    unavailable_schools = []
-    unavailable_date = []
-    unavailable_time = []
-    for reservation in reservations:
-        if check_availability(reservation.school, reservation.date, reservation.time):
-            unavailable_date.append(reservation.date)
-            unavailable_time.append(reservation.time)
-    unavailable_schools.append(unavailable_date)
-    unavailable_schools.append(unavailable_time)
+    # unavailable_schools = []
+    # unavailable_date = []
+    # unavailable_time = []
+    # for reservation in reservations:
+    #     if check_availability(reservation.school, reservation.date, reservation.time):
+    #         unavailable_date.append(reservation.date)
+    #         unavailable_time.append(reservation.time)
+    # unavailable_schools.append(unavailable_date)
+    # unavailable_schools.append(unavailable_time)
+    print(validateWeekdays)
+    slots = []
     for day in validateWeekdays:
         times = isTimeValid(day, time)
+        slots.append({
+            "day": day,
+            'time': times
+        })
+    print(slots)
     # if len(unavailable_schools) > 0:
     #     isTimeValid(unavailable_school[0], unavailable_school[1])
     #     # for i in range(0, len(unavailable_schools)):
@@ -62,8 +71,7 @@ def choose_reservation(request, school_name):
     #     return redirect("Reservations")
     # else:
     return render(request, 'templates/choose_reservation.html',
-                      {'school_name': school_name, 'weekdays': weekdays, 'validateWeekdays': validateWeekdays,
-                       'times': times})
+                      {'school_name': school_name, 'weekdays': weekdays, 'validateWeekdays': validateWeekdays, 'times': times, 'slots': slots})
 
 
 def validWeekday(days):
@@ -75,7 +83,6 @@ def validWeekday(days):
         y = x.strftime('%A')
         if y in ("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"):
             weekdays.append(x.strftime('%Y-%m-%d'))
-        print(weekdays)
     return weekdays
 
 

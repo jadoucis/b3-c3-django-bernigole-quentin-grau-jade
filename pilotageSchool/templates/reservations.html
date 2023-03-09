@@ -130,6 +130,7 @@
         <div class="container">
 
           <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+              {% if reservations%}
                 {% for reservation in reservations %}
                         <div class="col">
                             <div class="card" style="width: 18rem;">
@@ -142,6 +143,11 @@
                             </div>
                         </div>
                 {% endfor %}
+                {% else %}
+                    <div class="col-lg-6 col-md-8 mx-auto text-center">
+                          <h4>Aucunes réservations</h4>
+                      </div>
+                {% endif %}
 
           </div>
         </div>
