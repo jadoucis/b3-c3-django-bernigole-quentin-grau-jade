@@ -97,7 +97,7 @@
                     <h5 class="card-title">{{ school.name }}</h5>
                     <h6 class="card-subtitle mb-2 text-muted">{{ school.address }} - {{ school.phone }}</h6>
                     <p class="card-text">Formation pratique où l'instructeur apprend au conducteur comment manipuler les commandes de la voiture afin de le préparer au permis de conduire.</p>
-                  <a href="#" class="btn">Voir les créneaux disponibles</a>
+                  <a href="{% url 'choose_reservation' school.name %}" class="btn">Voir les créneaux disponibles</a>
                   </div>
                 </div>
             </div>

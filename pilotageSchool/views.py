@@ -6,7 +6,9 @@ from django import forms
 from . import forms
 from django.shortcuts import render
 from .models import School, Reservation
-from .forms import RegisterForm, ReservationForm
+from .forms import RegisterForm
+from datetime import datetime, timedelta
+from pilotageSchool.functions.booking_availability import check_availability
 
 
 # Create your views here.
@@ -25,8 +27,73 @@ def reservations_pages(request):
 
 # Choose reservation page view
 def choose_reservation(request, school_name):
-    form = ReservationForm()
-    return render(request, 'templates/choose_reservation.html', {'form': form, 'school_name': school_name})
+    school = School.objects.filter(name=school_name)
+    print(School)
+    reservations = Reservation.objects.all()
+    weekdays = validWeekday(15)
+    validateWeekdays = isWeekdayValid(weekdays)
+    time = ["8h", "9h", "10h", "11h", "14h", "15h", "16h", "17h"]
+    unavailable_schools = []
+    unavailable_date = []
+    unavailable_time = []
+    for reservation in reservations:
+        if check_availability(reservation.school, reservation.date, reservation.time):
+            unavailable_date.append(reservation.date)
+            unavailable_time.append(reservation.time)
+    unavailable_schools.append(unavailable_date)
+    unavailable_schools.append(unavailable_time)
+    for day in validateWeekdays:
+        times = isTimeValid(day, time)
+    # if len(unavailable_schools) > 0:
+    #     isTimeValid(unavailable_school[0], unavailable_school[1])
+    #     # for i in range(0, len(unavailable_schools)):
+    #     #     # isTimeValid(unavailable_school[0], unavailable_school[1])
+    #     #     # keys = list(unavailable_school)
+    #     #     print(unavailable_schools[i][i], unavailable_schools[i+1][i+1])
+    # else:
+    # if request.method == 'POST':
+    #     booking = Reservation.objects.create(
+    #         user=request.user,
+    #         school=school,
+    #         time=request.POST.get("time"),
+    #         date=request.session.get('day'),
+    #     )
+    #     booking.save()
+    #     return redirect("Reservations")
+    # else:
+    return render(request, 'templates/choose_reservation.html',
+                      {'school_name': school_name, 'weekdays': weekdays, 'validateWeekdays': validateWeekdays,
+                       'times': times})
+
+
+def validWeekday(days):
+    # Boucle pour sélectionner les jours réservable dans les 15 prochains jours
+    today = datetime.now()
+    weekdays = []
+    for i in range(0, days):
+        x = today + timedelta(days=i)
+        y = x.strftime('%A')
+        if y != 'Saturday' or y != 'Sunday':
+            weekdays.append(x.strftime('%Y-%m-%d'))
+    return weekdays
+
+
+def isWeekdayValid(x):
+    # Vérifie que les jours ne soient pas complets
+    validateWeekdays = []
+    for j in x:
+        if Reservation.objects.filter(date=j).count() < 8:
+            validateWeekdays.append(j)
+    return validateWeekdays
+
+
+def isTimeValid(day, time):
+    # Vérifie que les jours ne soient pas complets
+    x = []
+    for k in time:
+        if Reservation.objects.filter(date=day, time=k).count() < 1:
+            x.append(k)
+    return x
 
 
 # Register view (Bonus)

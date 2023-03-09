@@ -1,4 +1,4 @@
-import datetime
+from datetime import datetime
 from django.db import models
 from django.conf import settings
 
@@ -27,7 +27,7 @@ class Reservation(models.Model):
     )
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     school = models.ForeignKey(School, on_delete=models.CASCADE)
-    date = models.DateField()
+    date = models.DateField(default=datetime.now, blank=True)
     time = models.CharField(max_length=50, choices=TIME_CHOICES)
 
     def __str__(self):
