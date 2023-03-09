@@ -97,7 +97,9 @@
                             <div class="col">
                                     <div class="card" style="width: 18rem;">
                                       <div class="card-body">
-                                        <h5 class="card-title" name="day">{{slot.day}}</h5>
+                                        <select class="form-select fs-3 text-center" name="day">
+                                            <option value="{{slot.day}}">{{slot.day}}</option>
+                                            </select>
                                           <select class="form-select fs-3 text-center" name="time">
                                             {% for time in slot.time %}
                                             <option value="{{time}}">{{time}}</option>
