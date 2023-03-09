@@ -15,19 +15,19 @@ def validWeekday(days):
     return weekdays
 
 
-def isWeekdayValid(x):
+def isWeekdayValid(x, y):
     # Check that the days are not complete
     validateWeekdays = []
     for j in x:
-        if Reservation.objects.filter(date=j).count() < 8:
+        if Reservation.objects.filter(date=j, school=y).count() < 8:
             validateWeekdays.append(j)
     return validateWeekdays
 
 
-def isTimeValid(day, time):
+def isTimeValid(day, time, school):
     # Check that the times are not complete
     x = []
     for k in time:
-        if Reservation.objects.filter(date=day, time=k).count() < 1:
+        if Reservation.objects.filter(date=day, time=k, school=school).count() < 1:
             x.append(k)
     return x
