@@ -126,33 +126,39 @@
         </div>
       </section>
 
-      <div class="album py-5 bg-light">
-        <div class="container">
+        <form method="post"  class="me-2 ms-2" required>
+            {% csrf_token %}
+              <div class="album py-5 bg-light">
+                <div class="container">
 
-          <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
-              {% if reservations%}
-                {% for reservation in reservations %}
-                        <div class="col">
-                            <div class="card" style="width: 18rem;">
-                              <div class="card-body">
-                                <h5 class="card-title">{{ reservation.school.name }}</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">{{ reservation.date }} - {{ reservation.time }}</h6>
-                                <p class="card-text">Formation pratique où l'instructeur apprend au conducteur comment manipuler les commandes de la voiture afin de le préparer au permis de conduire.</p>
-                              <a href="#" class="btn" style="background-color: red;">Annuler</a>
+                  <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-3">
+                      {% if reservations%}
+                        {% for reservation in reservations %}
+                                <div class="col">
+                                    <div class="card" style="width: 18rem;">
+                                      <div class="card-body">
+                                        <h5 class="card-title">{{ reservation.school.name }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">{{ reservation.date }} - {{ reservation.time }}</h6>
+                                        <p class="card-text">Formation pratique où l'instructeur apprend au conducteur comment manipuler les commandes de la voiture afin de le préparer au permis de conduire.</p>
+<!--                                      <a href="#" class="btn" style="background-color: red;">Annuler</a>-->
+                                          <button type="submit" class="btn text-white" style="background-color: red;">Annuler</button>
+                                          <select class="form-select fs-3 text-center invisible" name="id">
+                                            <option value="{{reservation.id}}">{{reservation.id}}</option>
+                                        </select>
+                                      </div>
+                                    </div>
+                                </div>
+                        {% endfor %}
+                        {% else %}
+                            <div class="col-lg-6 col-md-8 mx-auto text-center">
+                                  <h4>Aucunes réservations</h4>
                               </div>
-                            </div>
-                        </div>
-                {% endfor %}
-                {% else %}
-                    <div class="col-lg-6 col-md-8 mx-auto text-center">
-                          <h4>Aucunes réservations</h4>
-                      </div>
-                {% endif %}
+                        {% endif %}
 
-          </div>
-        </div>
-      </div>
-
+                  </div>
+                </div>
+              </div>
+        </form>
     </main>
     {% endif %}
     {% endif %}

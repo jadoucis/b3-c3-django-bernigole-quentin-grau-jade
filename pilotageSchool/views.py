@@ -25,7 +25,13 @@ def index(request):
 # Reservation page view
 def reservations_pages(request):
     reservations = Reservation.objects.filter(user=request.user)
-    return render(request, 'templates/reservations.html', {'reservations': reservations})
+    if request.method == 'POST':
+        booking = Reservation.objects.filter(id=request.POST.get("id"))
+        booking.delete()
+        messages.success(request, "Votre annulation a été prise en compte!")
+        return redirect("Reservations")
+    else:
+        return render(request, 'templates/reservations.html', {'reservations': reservations})
 
 
 # Choose reservation page view
@@ -42,8 +48,6 @@ def choose_reservation(request, school_name):
             'time': times
         })
     if request.method == 'POST':
-        print(request.POST.get("day"))
-        print(request.POST.get("time"))
         booking = Reservation.objects.create(
             user=request.user,
             school=school,
