@@ -48,6 +48,8 @@ def choose_reservation(request, school_name):
             'time': times
         })
     if request.method == 'POST':
+        print(request.POST.get("time"))
+        print(request.POST.get("day"))
         booking = Reservation.objects.create(
             user=request.user,
             school=school,
